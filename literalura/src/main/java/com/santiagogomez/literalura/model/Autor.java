@@ -6,12 +6,12 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
-//@Entity
-//@Table(name = "autores")
+@Entity
+@Table(name = "autores")
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Autor {
-    //@Id
-    //@GeneratedValue(strategy = GenerationType.IDENTITY) // Generación automática del ID.
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @JsonProperty("birth_year")
     private Integer nacimiento;
@@ -19,17 +19,16 @@ public class Autor {
     private Integer defuncion;
     @JsonProperty("name")
     private String nombre;
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY) // Relación bidireccional muchos a muchos
+    @JoinTable(
+        name = "libros_autores", // Nombre de la tabla intermedia
+        joinColumns = @JoinColumn(name = "autor_id"), // Columna para la clave foránea de autor
+        inverseJoinColumns = @JoinColumn(name = "libro_id") // Columna para la clave foránea de libro
+    )
     private List<Libro> libro;
 
     public Autor(){
     }
-/*
-    public Autor(DatosAutor datosAutor){
-        this.nacimiento = datosAutor.nacimiento();
-        this.defuncion = datosAutor.defuncion();
-        this.nombre = datosAutor.nombre();
-    }*/
 
     public Autor(Autor datosAutor){
         this.nacimiento = nacimiento;

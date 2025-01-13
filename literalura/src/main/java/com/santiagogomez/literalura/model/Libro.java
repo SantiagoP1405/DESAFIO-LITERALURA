@@ -4,13 +4,13 @@ import java.util.List;
 
 import jakarta.persistence.*;
 
-//@Entity
-//@Table(name = "libro")
+@Entity
+@Table(name = "libros")
 public class Libro {
-    //@Id
+    @Id
     private Integer id;
     private String titulo;
-    //@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "libro", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Autor> autores;
     private List<String> idiomas;
     private Long descargas;
@@ -31,7 +31,7 @@ public class Libro {
         return titulo;
     }
 
-    public void setTitulo(){
+    public void setTitulo(String titulo){
         this.titulo = titulo;
     }
 
@@ -55,7 +55,7 @@ public class Libro {
         return descargas;
     }
 
-    public void setDescargas(){
+    public void setDescargas(Long descargas){
         this.descargas = descargas;
     }
 

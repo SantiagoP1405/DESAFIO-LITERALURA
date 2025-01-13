@@ -9,7 +9,7 @@ import com.santiagogomez.literalura.service.*;
 public class Principal {
     private Scanner input = new Scanner(System.in);
     private ConsumoAPI consumoAPI = new ConsumoAPI();
-    private final String url = "https://gutendex.com/books/?search=pride";
+    private final String url = "https://gutendex.com/books/";
     //private final String url = "https://gutendex.com/books/";
     private ConvierteDatos convierteDatos = new ConvierteDatos();
     private List<DatosLibro> datosLibro = new ArrayList<>();
