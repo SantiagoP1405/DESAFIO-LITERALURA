@@ -10,6 +10,7 @@ public class Principal {
     private Scanner input = new Scanner(System.in);
     private ConsumoAPI consumoAPI = new ConsumoAPI();
     private final String url = "https://gutendex.com/books/?search=pride";
+    //private final String url = "https://gutendex.com/books/";
     private ConvierteDatos convierteDatos = new ConvierteDatos();
     private List<DatosLibro> datosLibro = new ArrayList<>();
     private List<Libro> libro = new ArrayList<>();
@@ -23,6 +24,12 @@ public class Principal {
         List<DatosLibro> libros = datos.getResults();
         for (DatosLibro datosLibro : libros) {
             System.out.println(datosLibro.toString());
+            System.out.println();
+            /*for (Autor autor : datosLibro.autores()) {
+                System.out.println("  - Nombre: " + autor.getNombre());
+                System.out.println("    Nacimiento: " + autor.getNacimiento());
+                System.out.println("    Defunción: " + autor.getDefuncion());
+            }*/
         }
     }
     
