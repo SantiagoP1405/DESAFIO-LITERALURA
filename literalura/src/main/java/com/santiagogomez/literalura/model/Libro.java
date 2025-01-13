@@ -2,10 +2,16 @@ package com.santiagogomez.literalura.model;
 
 import java.util.List;
 
+import jakarta.persistence.*;
+
+//@Entity
+//@Table(name = "libro")
 public class Libro {
+    //@Id
     private Integer id;
     private String titulo;
-    private List<DatosAutor> autores;
+    //@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Autor> autores;
     private List<String> idiomas;
     private Long descargas;
 
@@ -29,11 +35,11 @@ public class Libro {
         this.titulo = titulo;
     }
 
-    public List<DatosAutor> getAutores(){
+    public List<Autor> getAutores(){
         return autores;
     }
 
-    public void setAutores(List<DatosAutor> autores){
+    public void setAutores(List<Autor> autores){
         this.autores = autores;
     }
 

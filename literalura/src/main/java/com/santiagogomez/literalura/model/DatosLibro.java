@@ -16,9 +16,11 @@ public record DatosLibro(
     @Override
     public String toString(){
         return 
+            "------- LIBRO -------" + "\n" +
             "Título: " + titulo + "\n" +
             "Autor/Autora: " + autores + "\n" +
             "Idiomas: " + idiomas + "\n" +
-            "Cantidad de descargas: " + descargas + "\n";
+            "Cantidad de descargas: " + descargas + "\n" +
+            "---------------------" + "\n"  ;
     }
 }
