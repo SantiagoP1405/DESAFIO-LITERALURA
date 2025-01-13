@@ -1,8 +1,13 @@
 package com.santiagogomez.literalura.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Autor {
-    private Long nacimiento;
-    private Long defuncion;
+    private Integer nacimiento;
+    private Integer defuncion;
+    @JsonProperty("name")
     private String nombre;
 
     public Autor(){
@@ -14,19 +19,19 @@ public class Autor {
         this.nombre = datosAutor.nombre();
     }
 
-    public Long getNacimiento(){
+    public Integer getNacimiento(){
         return nacimiento;
     }
 
-    public void setNacimiento(Long nacimiento){
+    public void setNacimiento(Integer nacimiento){
         this.nacimiento = nacimiento;
     }
 
-    public Long getDefuncion(){
+    public Integer getDefuncion(){
         return defuncion;
     }
 
-    public void setDefuncion(Long defuncion){
+    public void setDefuncion(Integer defuncion){
         this.defuncion = defuncion;
     }
 
