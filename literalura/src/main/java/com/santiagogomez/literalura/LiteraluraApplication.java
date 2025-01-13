@@ -20,3 +20,8 @@ public class LiteraluraApplication implements CommandLineRunner{
 	}
 
 }
+
+/*spring.datasource.url=jdbc:postgresql://${DB_HOST}/${DB_BOOKS}
+spring.datasource.username=${DB_USER}
+spring.datasource.password=${DB_PASSWORD}
+ */

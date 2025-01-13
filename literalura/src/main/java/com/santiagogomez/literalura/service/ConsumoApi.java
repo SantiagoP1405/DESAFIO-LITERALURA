@@ -16,6 +16,7 @@ public class ConsumoAPI {
         try {
             response = client
                     .send(request, HttpResponse.BodyHandlers.ofString());
+            System.out.println("Respuesta de la API: " + response.body());
         } catch (IOException e) {
             throw new RuntimeException(e);
         } catch (InterruptedException e) {
