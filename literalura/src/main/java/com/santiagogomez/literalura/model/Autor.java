@@ -20,16 +20,16 @@ public class Autor {
     private Integer defuncion;
     @JsonProperty("name")
     private String nombre;
-    @ManyToMany(mappedBy = "autores", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "autores", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
      private List<Libro> libro = new ArrayList<>();
 
     public Autor(){
     }
 
     public Autor(Autor datosAutor){
-        this.nacimiento = nacimiento;
-        this.defuncion = defuncion;
-        this.nombre = nombre;
+        this.nacimiento = datosAutor.nacimiento;
+        this.defuncion = datosAutor.defuncion;
+        this.nombre = datosAutor.nombre;
     }
 
     public Long getId(){

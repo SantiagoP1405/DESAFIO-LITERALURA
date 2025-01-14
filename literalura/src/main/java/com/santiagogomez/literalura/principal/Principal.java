@@ -39,6 +39,7 @@ public class Principal {
                     2 - Añadir libro por título
                     3 - Ver libros registrados
                     4 - Ver autores registrados
+                    5 - Ver libros por autor
                                   
                     0 - Salir
                     """;
@@ -58,6 +59,9 @@ public class Principal {
                     break;
                 case 4:
                     muestraAutoresRegistrados();
+                    break;
+                case 5:
+                    muestraLibrosPorAutor();
                     break;
                 case 0:
                     System.out.println("Cerrando la aplicación...");
@@ -133,7 +137,7 @@ public class Principal {
         System.out.println("Escribe el nombre del libro que quieres buscar:");
         var nombreLibro = input.nextLine().toLowerCase();
         Optional<Libro> libroEncontrado = libros.stream()
-                .filter(libro -> libro.getTitulo().toLowerCase().contains(nombreLibro)) // Insensible a mayúsculas
+                .filter(libro -> libro.getTitulo().toLowerCase().contains(nombreLibro)) 
                 .findFirst();
 
         if (libroEncontrado.isPresent()) {
@@ -172,5 +176,24 @@ public class Principal {
         autores = autorRepository.findAll();
         autores.forEach(System.out::println);  
     }
+
+    public void muestraLibrosPorAutor() {
+        autores = autorRepository.findAll();
+        System.out.println("------- LISTA DE AUTORES Y SUS LIBROS -------");
+    
+        for (Autor autor : autores) {
+            System.out.println("Nombre: " + autor.getNombre());
+            String librosPorAutor = autor.getLibro().stream()
+                    .map(Libro::getTitulo)  
+                    .collect(Collectors.joining(", "));
+            System.out.println("Libros: [" + librosPorAutor + "]");
+    
+            System.out.println("----------------------");
+        }
+    }
+    
+    
+    
+    
     
 }
