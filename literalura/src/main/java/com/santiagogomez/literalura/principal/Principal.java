@@ -40,7 +40,6 @@ public class Principal {
                     4 - Ver autores registrados
                                   
                     0 - Salir
-
                     """;
             System.out.println(menu);
             opcion = input.nextInt();
@@ -51,7 +50,7 @@ public class Principal {
                     mostrarLibrosBuscados();
                     break;
                 case 2:
-                    //buscaLibroPorTitulo();
+                    buscaLibroPorTitulo();
                     break;
                 case 3:
                     //muestraLibrosRegistrados();
@@ -68,13 +67,6 @@ public class Principal {
         }
     }
 
-    /*private void mostrarLibrosBuscados() {
-        System.out.println("----------- LIBROS DISPONIBLES -----------");
-        libros = consultar();
-        libros.forEach(libro -> System.out.println(libro));
-        System.out.println();
-    }*/
-
     private void mostrarLibrosBuscados() {
         int currentPage = 1; // Página inicial
         boolean continuar = true;
@@ -82,7 +74,7 @@ public class Principal {
     
         while (opcion != 0) {
             System.out.println("----------- LIBROS DISPONIBLES (Página " + currentPage + ") -----------");
-            libros = consultar(currentPage); 
+            libros = consultarCatalogoCompleto(currentPage); 
     
             if (libros.isEmpty()) {
                 System.out.println("No hay libros disponibles en esta página.");
@@ -119,15 +111,43 @@ public class Principal {
                     System.out.println("Opción no válida. Intenta nuevamente.");
             }
         }
-        System.out.println();
     }
     
 
-    public List<Libro> consultar(int page) {
+    public List<Libro> consultarCatalogoCompleto(int page) {
         String paginatedUrl = url + "?page=" + page; 
         var json = consumoAPI.obtenerDatos(paginatedUrl);
         Results datos = convierteDatos.obtenerDatos(json, Results.class);
         return datos.getResults();
+    }
+
+    public List<Libro> consultar() {
+        String paginatedUrl = url; 
+        var json = consumoAPI.obtenerDatos(paginatedUrl);
+        Results datos = convierteDatos.obtenerDatos(json, Results.class);
+        return datos.getResults();
+    }
+
+    public void buscaLibroPorTitulo(){
+        libros = consultar();
+        System.out.println("Escribe el nombre del libro que quieres buscar:");
+        var nombreLibro = input.nextLine().toLowerCase();
+        Optional<Libro> libroEncontrado = libros.stream()
+                .filter(libro -> libro.getTitulo().toLowerCase().contains(nombreLibro)) // Insensible a mayúsculas
+                .findFirst();
+
+        if (libroEncontrado.isPresent()) {
+            var libro = libroEncontrado.get();
+
+            Optional<Libro> libroEnBaseDeDatos = libroRepository.findById(libro.getId());
+            if (libroEnBaseDeDatos.isPresent()) {
+                System.out.println("El libro con el nombre '" + libro.getTitulo() + "' ya existe en la base de datos.");
+            } else {
+                procesarLibro(libro);
+            }
+        } else {
+            System.out.println("No se encontró un libro con ese nombre.");
+        }
     }
     
 
@@ -174,6 +194,8 @@ public class Principal {
         libroRepository.save(libro);
         System.out.println("Libro guardado: " + libro.getTitulo());
     }
+
+    
 
     
 }
