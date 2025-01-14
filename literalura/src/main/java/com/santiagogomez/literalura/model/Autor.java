@@ -72,8 +72,17 @@ public class Autor {
         this.libro = libro;
     }
 
+    public String toName(){
+        return nombre;
+    }
+
     @Override
     public String toString(){
-        return nombre;
+        return 
+            "------- AUTOR ------- " + "\n" +
+            "Nombre: " + nombre + "\n" +
+            "Fecha de nacimiento: " + nacimiento + "\n" +
+            "Fecha de defunción: " + defuncion + "\n" +
+            "----------------------" + "\n";
     }
 }

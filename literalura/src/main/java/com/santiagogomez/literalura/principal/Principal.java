@@ -19,6 +19,7 @@ public class Principal {
     private final String url = "https://gutendex.com/books/";
     private ConvierteDatos convierteDatos = new ConvierteDatos();
     private List<Libro> libros = new ArrayList<>();
+    private List<Autor> autores = new ArrayList<>();
 
     @Autowired
     private LibroRepository libroRepository;
@@ -56,7 +57,7 @@ public class Principal {
                     muestraLibrosRegistrados();
                     break;
                 case 4:
-                    //muestraAutoresRegistrados();
+                    muestraAutoresRegistrados();
                     break;
                 case 0:
                     System.out.println("Cerrando la aplicación...");
@@ -68,8 +69,7 @@ public class Principal {
     }
 
     private void mostrarLibrosBuscados() {
-        int currentPage = 1; // Página inicial
-        boolean continuar = true;
+        int currentPage = 1; 
         int opcion = -1;
     
         while (opcion != 0) {
@@ -162,9 +162,15 @@ public class Principal {
     }
 
     public void muestraLibrosRegistrados(){
-        System.out.println("-------- MIS LIBROS REGISTRADOS --------");
+        System.out.println("<-------- MIS LIBROS REGISTRADOS -------->");
         libros = libroRepository.findAll();
         libros.forEach(System.out::println);
     }    
+
+    public void muestraAutoresRegistrados(){
+        System.out.println("<-------- MIS AUTORES REGISTRADOS -------->");
+        autores = autorRepository.findAll();
+        autores.forEach(System.out::println);  
+    }
     
 }

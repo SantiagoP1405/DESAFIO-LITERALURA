@@ -2,6 +2,7 @@ package com.santiagogomez.literalura.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -83,13 +84,16 @@ public class Libro {
     }
 
     @Override
-    public String toString(){
-        return 
-            "------- LIBRO ------- " + "\n" +
-            "Título: " + titulo + "\n" +
-            "Autor/Autora: " + autores + "\n" +
-            "Idiomas: " + idiomas + "\n" +
-            "Cantidad de descargas: " + descargas + "\n" + 
-            "----------------------" + "\n";
-    }
+public String toString() {
+    return 
+        "------- LIBRO ------- " + "\n" +
+        "Título: " + titulo + "\n" +
+        "Autor/Autora: " + autores.stream()
+            .map(Autor::getNombre)
+            .collect(Collectors.joining(", ")) + "\n" +
+        "Idiomas: " + idiomas + "\n" +
+        "Cantidad de descargas: " + descargas + "\n" + 
+        "----------------------" + "\n";
+}
+
 }
