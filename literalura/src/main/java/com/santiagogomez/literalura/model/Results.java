@@ -3,24 +3,26 @@ package com.santiagogomez.literalura.model;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Results {
-    private List<DatosLibro> results;
+    @JsonProperty("results")
+    private List<Libro> results;
 
     public Results(){
 
     }
 
-    public Results(DatosResults datosResults) {
-        this.results = datosResults.results();
+    public Results(Results datosResults) {
+        this.results = results;
     }
     
-    public List<DatosLibro> getResults() {
+    public List<Libro> getResults() {
         return results;
     }
 
-    public void setResults(List<DatosLibro> results) {
+    public void setResults(List<Libro> results) {
         this.results = results;
     }
 
