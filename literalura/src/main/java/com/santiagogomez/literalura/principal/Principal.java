@@ -50,7 +50,7 @@ public class Principal {
                     mostrarLibrosBuscados();
                     break;
                 case 2:
-                    buscaLibroPorTitulo();
+                    buscarLibroPorTitulo();
                     break;
                 case 3:
                     //muestraLibrosRegistrados();
@@ -128,7 +128,7 @@ public class Principal {
         return datos.getResults();
     }
 
-    public void buscaLibroPorTitulo(){
+    public void buscarLibroPorTitulo(){
         libros = consultar();
         System.out.println("Escribe el nombre del libro que quieres buscar:");
         var nombreLibro = input.nextLine().toLowerCase();
