@@ -78,45 +78,47 @@ public class Principal {
     private void mostrarLibrosBuscados() {
         int currentPage = 1; // Página inicial
         boolean continuar = true;
+        int opcion = -1;
     
-        while (continuar) {
+        while (opcion != 0) {
             System.out.println("----------- LIBROS DISPONIBLES (Página " + currentPage + ") -----------");
-            libros = consultar(currentPage); // Consultar libros de la página actual
+            libros = consultar(currentPage); 
     
             if (libros.isEmpty()) {
                 System.out.println("No hay libros disponibles en esta página.");
             } else {
                 libros.forEach(libro -> System.out.println(libro));
             }
-    
-            System.out.println("\n--- Opciones ---");
-            System.out.println("1. Página anterior");
-            System.out.println("2. Página siguiente");
-            System.out.println("3. Salir al menú principal");
-            System.out.print("Selecciona una opción: ");
-    
-            int opcion = input.nextInt(); // Leer opción del usuario
-            input.nextLine(); // Consumir el salto de línea sobrante
+            var menu = """
+                ------------ Opciones ------------
+
+                1 - Página anterior
+                2 - Página siguiente
+                0 - Volver al menú principal                              
+
+                """;
+            System.out.println(menu);
+            opcion = input.nextInt(); 
+            input.nextLine(); 
     
             switch (opcion) {
-                case 1: // Página anterior
+                case 1: 
                     if (currentPage > 1) {
                         currentPage--;
                     } else {
                         System.out.println("Ya estás en la primera página.");
                     }
                     break;
-                case 2: // Página siguiente
+                case 2: 
                     currentPage++;
                     break;
-                case 3: // Salir al menú principal
-                    continuar = false;
+                case 0: 
+                    System.out.println("Volviendo al menú principal...");
                     break;
                 default:
                     System.out.println("Opción no válida. Intenta nuevamente.");
             }
         }
-    
         System.out.println();
     }
     
