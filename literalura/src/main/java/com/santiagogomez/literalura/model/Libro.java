@@ -17,7 +17,12 @@ public class Libro {
     private Long id;
     @JsonProperty("title")
     private String titulo;
-    @ManyToMany(mappedBy = "libro", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
+    @JoinTable(
+        name = "libros_autores",
+        joinColumns = @JoinColumn(name = "libro_id"),
+        inverseJoinColumns = @JoinColumn(name = "autor_id")
+    )
     @JsonProperty("authors")
     private List<Autor> autores = new ArrayList<>();
     @JsonProperty("languages")
@@ -80,9 +85,11 @@ public class Libro {
     @Override
     public String toString(){
         return 
+            "------- LIBRO ------- " + "\n" +
             "Título: " + titulo + "\n" +
             "Autor/Autora: " + autores + "\n" +
             "Idiomas: " + idiomas + "\n" +
-            "Cantidad de descargas: " + descargas + "\n";
+            "Cantidad de descargas: " + descargas + "\n" + 
+            "----------------------" + "\n";
     }
 }

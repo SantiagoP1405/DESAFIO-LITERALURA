@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import com.santiagogomez.literalura.service.ConsumoAPI;
 import com.santiagogomez.literalura.service.ConvierteDatos;
 import com.santiagogomez.literalura.model.*;
+import com.santiagogomez.literalura.repository.AutorRepository;
 import com.santiagogomez.literalura.repository.LibroRepository;
 
 @Component
@@ -18,60 +19,60 @@ public class Principal {
     private final String url = "https://gutendex.com/books/";
     private ConvierteDatos convierteDatos = new ConvierteDatos();
     private List<Libro> libros = new ArrayList<>();
-    
+
     @Autowired
     private LibroRepository libroRepository;
+
+    @Autowired
+    private AutorRepository autorRepository;
 
     public void pruebaAPI() {
         System.out.println("Estos son los datos de la API");
         var json = consumoAPI.obtenerDatos(url);
         Results datos = convierteDatos.obtenerDatos(json, Results.class);
         libros = datos.getResults();
-    
-        // Mostrar todos los libros disponibles
+
         mostrarLibrosBuscados();
-    
-        // Solicitar al usuario el nombre del libro que desea buscar
         System.out.println("Escribe el nombre del libro que quieres buscar:");
-        var nombreLibro = input.nextLine();
-    
-        // Buscar el libro por nombre
+        var nombreLibro = input.nextLine().toLowerCase(); // Convertimos a minúsculas para la búsqueda
+
         Optional<Libro> libroEncontrado = libros.stream()
-                .filter(libro -> libro.getTitulo().contains(nombreLibro))
+                .filter(libro -> libro.getTitulo().toLowerCase().contains(nombreLibro)) // Insensible a mayúsculas
                 .findFirst();
-    
+
         if (libroEncontrado.isPresent()) {
             var libro = libroEncontrado.get();
-    
-            // Verificar si el libro ya existe en la base de datos
+
             Optional<Libro> libroEnBaseDeDatos = libroRepository.findById(libro.getId());
-    
             if (libroEnBaseDeDatos.isPresent()) {
                 System.out.println("El libro con el nombre '" + libro.getTitulo() + "' ya existe en la base de datos.");
             } else {
-                // Asegúrate de mantener la relación bidireccional entre el libro y los autores
-                // Esto se hace añadiendo el libro a la lista de libros del autor.
-                libro.getAutores().forEach(autor -> {
-                    if (autor.getLibro() == null) {
-                        autor.setLibro(new ArrayList<>());  // Inicializar la lista si es null
-                    }
-                    autor.getLibro().add(libro);  // Mantener la relación bidireccional
-                });
-    
-                // Guardar el libro junto con los autores
-                libroRepository.save(libro);
-                System.out.println("Libro guardado: " + libro.getTitulo());
+                procesarLibro(libro);
             }
         } else {
             System.out.println("No se encontró un libro con ese nombre.");
         }
     }
-    
 
-    // Método para mostrar los libros disponibles
+    private void procesarLibro(Libro libro) {
+        // Actualizar o crear autores
+        List<Autor> autoresActualizados = libro.getAutores().stream()
+            .map(autor -> {
+                Optional<Autor> autorExistente = autorRepository.findByNombre(autor.getNombre());
+                return autorExistente.orElseGet(() -> autorRepository.save(autor));
+            }).collect(Collectors.toList());
+
+        // Asociar autores actualizados al libro
+        libro.setAutores(autoresActualizados);
+
+        // Guardar libro con autores actualizados
+        libroRepository.save(libro);
+        System.out.println("Libro guardado: " + libro.getTitulo());
+    }
+
     private void mostrarLibrosBuscados() {
         System.out.println("Lista de libros disponibles:");
-        libros.forEach(libro -> System.out.println(libro.getTitulo()));
+        libros.forEach(libro -> System.out.println(libro));
         System.out.println();
     }
 }

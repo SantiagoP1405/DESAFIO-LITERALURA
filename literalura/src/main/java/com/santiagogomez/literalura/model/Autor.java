@@ -20,12 +20,7 @@ public class Autor {
     private Integer defuncion;
     @JsonProperty("name")
     private String nombre;
-    @ManyToMany(fetch = FetchType.LAZY) // Relación bidireccional muchos a muchos
-    @JoinTable(
-        name = "libros_autores", // Nombre de la tabla intermedia
-        joinColumns = @JoinColumn(name = "autor_id"), // Columna para la clave foránea de autor
-        inverseJoinColumns = @JoinColumn(name = "libro_id") // Columna para la clave foránea de libro
-    )
+    @ManyToMany(mappedBy = "autores", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
      private List<Libro> libro = new ArrayList<>();
 
     public Autor(){
