@@ -5,6 +5,7 @@
 ## Tecnologías Implementadas
 
 - **Java**: El lenguaje principal utilizado en el proyecto.
+- **API Gutendex**: Se utiizaron datos de la API de libros [Gutendex].(https://gutendex.com/)
 - **Spring Boot**: Framework para la creación de aplicaciones web y API RESTful.
 - **Jakarta Persistence (JPA)**: Framework para la interacción con bases de datos y operaciones CRUD.
 - **Hibernate**: Implementación de JPA que se utiliza para mapear las entidades a tablas en la base de datos.
