@@ -40,6 +40,7 @@ public class Principal {
                     3 - Ver libros registrados
                     4 - Ver autores registrados
                     5 - Ver libros por autor
+                    6 - Ver libros por idioma
                                   
                     0 - Salir
                     """;
@@ -63,6 +64,8 @@ public class Principal {
                 case 5:
                     muestraLibrosPorAutor();
                     break;
+                case 6:
+                    buscarLibrosPorIdioma();
                 case 0:
                     System.out.println("Cerrando la aplicación...");
                     break;
@@ -191,9 +194,30 @@ public class Principal {
             System.out.println("----------------------");
         }
     }
+
+    public String menuIdioma(){
+        var menu = """
+                Ingresa el idioma que quieres buscar
+
+                < es > Español
+                < en > Inglés
+                < fr > Español                            
+
+                """;
+        System.out.println(menu);
+        String idioma = input.nextLine().toLowerCase();
+        return idioma;
+    }
+    public void buscarLibrosPorIdioma() {
+        String idioma = menuIdioma(); 
+        libros = libroRepository.findLibrosPorIdioma(idioma);
     
-    
-    
+        if (libros.isEmpty()) {
+            System.out.println("No se encontraron libros en el idioma especificado.");
+        } else {
+            libros.forEach(System.out::println);  
+        }
+    }
     
     
 }
