@@ -53,7 +53,7 @@ public class Principal {
                     buscarLibroPorTitulo();
                     break;
                 case 3:
-                    //muestraLibrosRegistrados();
+                    muestraLibrosRegistrados();
                     break;
                 case 4:
                     //muestraAutoresRegistrados();
@@ -160,5 +160,11 @@ public class Principal {
         libroRepository.save(libro);
         System.out.println("Libro guardado: " + libro.getTitulo());
     }
+
+    public void muestraLibrosRegistrados(){
+        System.out.println("-------- MIS LIBROS REGISTRADOS --------");
+        libros = libroRepository.findAll();
+        libros.forEach(System.out::println);
+    }    
     
 }
