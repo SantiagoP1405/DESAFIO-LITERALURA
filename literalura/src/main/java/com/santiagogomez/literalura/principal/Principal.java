@@ -26,16 +26,21 @@ public class Principal {
     @Autowired
     private AutorRepository autorRepository;
 
+    
+
     public void muestraMenu(){
         var opcion = -1;
         while (opcion != 0) {
             var menu = """
+                    ------------ Menu ------------
+
                     1 - Ver catálogo completo
-                    2 - Buscar libro por título
+                    2 - Añadir libro por título
                     3 - Ver libros registrados
                     4 - Ver autores registrados
                                   
                     0 - Salir
+
                     """;
             System.out.println(menu);
             opcion = input.nextInt();
@@ -43,7 +48,7 @@ public class Principal {
 
             switch (opcion) {
                 case 1:
-                    //muestraCatalogo();
+                    mostrarLibrosBuscados();
                     break;
                 case 2:
                     //buscaLibroPorTitulo();
@@ -62,6 +67,67 @@ public class Principal {
             }
         }
     }
+
+    /*private void mostrarLibrosBuscados() {
+        System.out.println("----------- LIBROS DISPONIBLES -----------");
+        libros = consultar();
+        libros.forEach(libro -> System.out.println(libro));
+        System.out.println();
+    }*/
+
+    private void mostrarLibrosBuscados() {
+        int currentPage = 1; // Página inicial
+        boolean continuar = true;
+    
+        while (continuar) {
+            System.out.println("----------- LIBROS DISPONIBLES (Página " + currentPage + ") -----------");
+            libros = consultar(currentPage); // Consultar libros de la página actual
+    
+            if (libros.isEmpty()) {
+                System.out.println("No hay libros disponibles en esta página.");
+            } else {
+                libros.forEach(libro -> System.out.println(libro));
+            }
+    
+            System.out.println("\n--- Opciones ---");
+            System.out.println("1. Página anterior");
+            System.out.println("2. Página siguiente");
+            System.out.println("3. Salir al menú principal");
+            System.out.print("Selecciona una opción: ");
+    
+            int opcion = input.nextInt(); // Leer opción del usuario
+            input.nextLine(); // Consumir el salto de línea sobrante
+    
+            switch (opcion) {
+                case 1: // Página anterior
+                    if (currentPage > 1) {
+                        currentPage--;
+                    } else {
+                        System.out.println("Ya estás en la primera página.");
+                    }
+                    break;
+                case 2: // Página siguiente
+                    currentPage++;
+                    break;
+                case 3: // Salir al menú principal
+                    continuar = false;
+                    break;
+                default:
+                    System.out.println("Opción no válida. Intenta nuevamente.");
+            }
+        }
+    
+        System.out.println();
+    }
+    
+
+    public List<Libro> consultar(int page) {
+        String paginatedUrl = url + "?page=" + page; 
+        var json = consumoAPI.obtenerDatos(paginatedUrl);
+        Results datos = convierteDatos.obtenerDatos(json, Results.class);
+        return datos.getResults();
+    }
+    
 
     public void pruebaAPI() {
         System.out.println("Estos son los datos de la API");
@@ -107,9 +173,5 @@ public class Principal {
         System.out.println("Libro guardado: " + libro.getTitulo());
     }
 
-    private void mostrarLibrosBuscados() {
-        System.out.println("Lista de libros disponibles:");
-        libros.forEach(libro -> System.out.println(libro));
-        System.out.println();
-    }
+    
 }
