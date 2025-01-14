@@ -26,6 +26,43 @@ public class Principal {
     @Autowired
     private AutorRepository autorRepository;
 
+    public void muestraMenu(){
+        var opcion = -1;
+        while (opcion != 0) {
+            var menu = """
+                    1 - Ver catálogo completo
+                    2 - Buscar libro por título
+                    3 - Ver libros registrados
+                    4 - Ver autores registrados
+                                  
+                    0 - Salir
+                    """;
+            System.out.println(menu);
+            opcion = input.nextInt();
+            input.nextLine();
+
+            switch (opcion) {
+                case 1:
+                    //muestraCatalogo();
+                    break;
+                case 2:
+                    //buscaLibroPorTitulo();
+                    break;
+                case 3:
+                    //muestraLibrosRegistrados();
+                    break;
+                case 4:
+                    //muestraAutoresRegistrados();
+                    break;
+                case 0:
+                    System.out.println("Cerrando la aplicación...");
+                    break;
+                default:
+                    System.out.println("Opción inválida");
+            }
+        }
+    }
+
     public void pruebaAPI() {
         System.out.println("Estos son los datos de la API");
         var json = consumoAPI.obtenerDatos(url);
